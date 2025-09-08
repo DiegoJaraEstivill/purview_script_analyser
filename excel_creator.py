@@ -24,15 +24,16 @@ def crear_excel_purview(datos_registros):
     ws = wb.active
     ws.title = "Datos Purview"
     
-    # Definir headers para las 7 columnas
+    # Definir headers para las 8 columnas (agregamos Audit Operation)
     headers = [
-        'RecordID',           # A
-        'Creation Date',      # B
-        'Record Type',        # C
-        'Operation',          # D
-        'User ID',           # E
-        'Audit Creation Time', # F
-        'Audit ID'           # G
+        'RecordID',              # A
+        'Creation Date',         # B
+        'Record Type',           # C
+        'Operation',             # D
+        'User ID',              # E
+        'Audit Creation Time',   # F
+        'Audit ID',             # G
+        'Audit Operation'        # H ✅ NUEVA COLUMNA
     ]
     
     # Agregar headers con formato
@@ -50,6 +51,7 @@ def crear_excel_purview(datos_registros):
         ws.cell(row=row, column=5, value=registro.get('user_id', 'N/A'))
         ws.cell(row=row, column=6, value=registro.get('audit_creation_time', 'N/A'))
         ws.cell(row=row, column=7, value=registro.get('audit_id', 'N/A'))
+        ws.cell(row=row, column=8, value=registro.get('audit_operation', 'N/A'))  # ✅ NUEVA COLUMNA
     
     # Ajustar ancho de columnas automáticamente
     for column in ws.columns:

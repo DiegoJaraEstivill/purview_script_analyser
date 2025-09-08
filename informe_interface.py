@@ -1,22 +1,13 @@
 class InformeInterface:
     """Clase para representar una línea del archivo Excel"""
     
-    def __init__(self, record_id, creation_date, record_type, operation, user_id, audit_creation_time, audit_id, audit_operation, organization_id, audit_record_type, user_key, user_type, version, workload, client_ip):
+    def __init__(self, record_id, creation_date, record_type, operation, user_id, campos_audit):
         self.record_id = record_id
         self.creation_date = creation_date
         self.record_type = record_type
         self.operation = operation
         self.user_id = user_id
-        self.audit_creation_time = audit_creation_time
-        self.audit_id = audit_id
-        self.audit_operation = audit_operation
-        self.organization_id = organization_id
-        self.audit_record_type = audit_record_type
-        self.user_key = user_key
-        self.user_type = user_type
-        self.version = version
-        self.workload = workload
-        self.client_ip = client_ip
+        self.campos_audit = campos_audit
         
     
     def mostrar_datos(self, numero_linea):
@@ -28,14 +19,12 @@ class InformeInterface:
         print(f"3 Record Type: {self.record_type}")
         print(f"4 Operation: {self.operation}")
         print(f"5 User ID: {self.user_id}")
-        print(f"6 Audit Creation Time: {self.audit_creation_time}")
-        print(f"7 Audit ID: {self.audit_id}")
-        print(f"8 Audit Operation: {self.audit_operation}")
-        print(f"9 Organization ID: {self.organization_id}")
-        print(f"10 Audit Record Type: {self.audit_record_type}")
-        print(f"11 User Key: {self.user_key}")
-        print(f"12 User Type: {self.user_type}")
-        print(f"13 Version: {self.version}")
-        print(f"14 Workload: {self.workload}")
-        print(f"15 Client IP: {self.client_ip}")
+        # Mostrar campos de auditoría de forma dinámica
+        print("=== CAMPOS DE AUDITORÍA ===")
+        contador = 6
+        for key, value in self.campos_audit.items():
+            # Convertir snake_case a title case para mejor legibilidad
+            display_name = key.replace('_', ' ').title()
+            print(f"{contador} {display_name}: {value}")
+            contador += 1
         print("|" * 60)

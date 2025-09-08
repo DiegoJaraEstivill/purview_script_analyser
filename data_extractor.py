@@ -32,8 +32,9 @@ def extraer_datos_audit(audit_data, fila_numero):
     Returns:
         dict: Diccionario con todos los campos extraídos
     """
-    # Inicializar todos los campos con N/A
+    # Inicializar todos los 39 campos con N/A
     campos_audit = {
+        # Campos existentes (10)
         'creation_time': 'N/A',
         'audit_id': 'N/A',
         'audit_operation': 'N/A',
@@ -43,7 +44,37 @@ def extraer_datos_audit(audit_data, fila_numero):
         'user_type': 'N/A',
         'version': 'N/A',
         'workload': 'N/A',
-        'client_ip': 'N/A'
+        'client_ip': 'N/A',
+        # Nuevos campos (29)
+        'audit_user_id': 'N/A',
+        'authentication_type': 'N/A',
+        'browser_name': 'N/A',
+        'browser_version': 'N/A',
+        'correlation_id': 'N/A',
+        'event_source': 'N/A',
+        'geo_location': 'N/A',
+        'is_managed_device': 'N/A',
+        'item_type': 'N/A',
+        'list_id': 'N/A',
+        'list_item_unique_id': 'N/A',
+        'platform': 'N/A',
+        'site': 'N/A',
+        'user_agent': 'N/A',
+        'web_id': 'N/A',
+        'device_display_name': 'N/A',
+        'event_signature': 'N/A',
+        'machine_id': 'N/A',
+        'file_sync_bytes_committed': 'N/A',
+        'high_priority_media_processing': 'N/A',
+        'implicit_share': 'N/A',
+        'list_base_type': 'N/A',
+        'list_server_template': 'N/A',
+        'source_relative_url': 'N/A',
+        'source_file_name': 'N/A',
+        'source_file_extension': 'N/A',
+        'application_display_name': 'N/A',
+        'site_url': 'N/A',
+        'object_id': 'N/A'
     }
     
     try:
@@ -58,7 +89,8 @@ def extraer_datos_audit(audit_data, fila_numero):
             
             audit_data_dict = json.loads(audit_data_limpio)
             
-            # Extraer todos los campos
+            # Extraer todos los 39 campos del JSON
+            # Campos existentes (10)
             campos_audit['creation_time'] = audit_data_dict.get('CreationTime', 'N/A')
             campos_audit['audit_id'] = audit_data_dict.get('Id', 'N/A')
             campos_audit['audit_operation'] = audit_data_dict.get('Operation', 'N/A')
@@ -69,6 +101,36 @@ def extraer_datos_audit(audit_data, fila_numero):
             campos_audit['version'] = audit_data_dict.get('Version', 'N/A')
             campos_audit['workload'] = audit_data_dict.get('Workload', 'N/A')
             campos_audit['client_ip'] = audit_data_dict.get('ClientIP', 'N/A')
+            # Nuevos campos (29)
+            campos_audit['audit_user_id'] = audit_data_dict.get('UserId', 'N/A')
+            campos_audit['authentication_type'] = audit_data_dict.get('AuthenticationType', 'N/A')
+            campos_audit['browser_name'] = audit_data_dict.get('BrowserName', 'N/A')
+            campos_audit['browser_version'] = audit_data_dict.get('BrowserVersion', 'N/A')
+            campos_audit['correlation_id'] = audit_data_dict.get('CorrelationId', 'N/A')
+            campos_audit['event_source'] = audit_data_dict.get('EventSource', 'N/A')
+            campos_audit['geo_location'] = audit_data_dict.get('GeoLocation', 'N/A')
+            campos_audit['is_managed_device'] = audit_data_dict.get('IsManagedDevice', 'N/A')
+            campos_audit['item_type'] = audit_data_dict.get('ItemType', 'N/A')
+            campos_audit['list_id'] = audit_data_dict.get('ListId', 'N/A')
+            campos_audit['list_item_unique_id'] = audit_data_dict.get('ListItemUniqueId', 'N/A')
+            campos_audit['platform'] = audit_data_dict.get('Platform', 'N/A')
+            campos_audit['site'] = audit_data_dict.get('Site', 'N/A')
+            campos_audit['user_agent'] = audit_data_dict.get('UserAgent', 'N/A')
+            campos_audit['web_id'] = audit_data_dict.get('WebId', 'N/A')
+            campos_audit['device_display_name'] = audit_data_dict.get('DeviceDisplayName', 'N/A')
+            campos_audit['event_signature'] = audit_data_dict.get('EventSignature', 'N/A')
+            campos_audit['machine_id'] = audit_data_dict.get('MachineId', 'N/A')
+            campos_audit['file_sync_bytes_committed'] = audit_data_dict.get('FileSyncBytesCommitted', 'N/A')
+            campos_audit['high_priority_media_processing'] = audit_data_dict.get('HighPriorityMediaProcessing', 'N/A')
+            campos_audit['implicit_share'] = audit_data_dict.get('ImplicitShare', 'N/A')
+            campos_audit['list_base_type'] = audit_data_dict.get('ListBaseType', 'N/A')
+            campos_audit['list_server_template'] = audit_data_dict.get('ListServerTemplate', 'N/A')
+            campos_audit['source_relative_url'] = audit_data_dict.get('SourceRelativeUrl', 'N/A')
+            campos_audit['source_file_name'] = audit_data_dict.get('SourceFileName', 'N/A')
+            campos_audit['source_file_extension'] = audit_data_dict.get('SourceFileExtension', 'N/A')
+            campos_audit['application_display_name'] = audit_data_dict.get('ApplicationDisplayName', 'N/A')
+            campos_audit['site_url'] = audit_data_dict.get('SiteUrl', 'N/A')
+            campos_audit['object_id'] = audit_data_dict.get('ObjectId', 'N/A')
             
             print(f"DEBUG - Fila {fila_numero}: Extraídos {len([v for v in campos_audit.values() if v != 'N/A'])} campos del JSON")
             
@@ -86,7 +148,8 @@ def extraer_datos_audit(audit_data, fila_numero):
                 audit_data_manual = audit_data[:1144] + audit_data[1145:]
                 audit_data_dict = json.loads(audit_data_manual)
                 
-                # Extraer todos los campos con limpieza manual
+                # Extraer todos los 39 campos con limpieza manual
+                # Campos existentes (10)
                 campos_audit['creation_time'] = audit_data_dict.get('CreationTime', 'N/A')
                 campos_audit['audit_id'] = audit_data_dict.get('Id', 'N/A')
                 campos_audit['audit_operation'] = audit_data_dict.get('Operation', 'N/A')
@@ -97,6 +160,36 @@ def extraer_datos_audit(audit_data, fila_numero):
                 campos_audit['version'] = audit_data_dict.get('Version', 'N/A')
                 campos_audit['workload'] = audit_data_dict.get('Workload', 'N/A')
                 campos_audit['client_ip'] = audit_data_dict.get('ClientIP', 'N/A')
+                # Nuevos campos (29)
+                campos_audit['audit_user_id'] = audit_data_dict.get('UserId', 'N/A')
+                campos_audit['authentication_type'] = audit_data_dict.get('AuthenticationType', 'N/A')
+                campos_audit['browser_name'] = audit_data_dict.get('BrowserName', 'N/A')
+                campos_audit['browser_version'] = audit_data_dict.get('BrowserVersion', 'N/A')
+                campos_audit['correlation_id'] = audit_data_dict.get('CorrelationId', 'N/A')
+                campos_audit['event_source'] = audit_data_dict.get('EventSource', 'N/A')
+                campos_audit['geo_location'] = audit_data_dict.get('GeoLocation', 'N/A')
+                campos_audit['is_managed_device'] = audit_data_dict.get('IsManagedDevice', 'N/A')
+                campos_audit['item_type'] = audit_data_dict.get('ItemType', 'N/A')
+                campos_audit['list_id'] = audit_data_dict.get('ListId', 'N/A')
+                campos_audit['list_item_unique_id'] = audit_data_dict.get('ListItemUniqueId', 'N/A')
+                campos_audit['platform'] = audit_data_dict.get('Platform', 'N/A')
+                campos_audit['site'] = audit_data_dict.get('Site', 'N/A')
+                campos_audit['user_agent'] = audit_data_dict.get('UserAgent', 'N/A')
+                campos_audit['web_id'] = audit_data_dict.get('WebId', 'N/A')
+                campos_audit['device_display_name'] = audit_data_dict.get('DeviceDisplayName', 'N/A')
+                campos_audit['event_signature'] = audit_data_dict.get('EventSignature', 'N/A')
+                campos_audit['machine_id'] = audit_data_dict.get('MachineId', 'N/A')
+                campos_audit['file_sync_bytes_committed'] = audit_data_dict.get('FileSyncBytesCommitted', 'N/A')
+                campos_audit['high_priority_media_processing'] = audit_data_dict.get('HighPriorityMediaProcessing', 'N/A')
+                campos_audit['implicit_share'] = audit_data_dict.get('ImplicitShare', 'N/A')
+                campos_audit['list_base_type'] = audit_data_dict.get('ListBaseType', 'N/A')
+                campos_audit['list_server_template'] = audit_data_dict.get('ListServerTemplate', 'N/A')
+                campos_audit['source_relative_url'] = audit_data_dict.get('SourceRelativeUrl', 'N/A')
+                campos_audit['source_file_name'] = audit_data_dict.get('SourceFileName', 'N/A')
+                campos_audit['source_file_extension'] = audit_data_dict.get('SourceFileExtension', 'N/A')
+                campos_audit['application_display_name'] = audit_data_dict.get('ApplicationDisplayName', 'N/A')
+                campos_audit['site_url'] = audit_data_dict.get('SiteUrl', 'N/A')
+                campos_audit['object_id'] = audit_data_dict.get('ObjectId', 'N/A')
                 
                 print(f"ÉXITO con limpieza manual - Fila {fila_numero}: Extraídos {len([v for v in campos_audit.values() if v != 'N/A'])} campos")
             except Exception as e2:
@@ -141,46 +234,29 @@ def getdata_from_base_excel(archivo_excel, num_filas=5):
         # Extraer datos del JSON de auditoría (ahora incluye múltiples campos)
         campos_audit = extraer_datos_audit(audit_data, i)
         
-        # Crear objeto InformeInterface
+        # Crear objeto InformeInterface con todos los campos
         registro = InformeInterface(
             record_id=row.get('RecordId', 'N/A'),
             creation_date=row.get('CreationDate', 'N/A'),
             record_type=row.get('RecordType', 'N/A'),
             operation=row.get('Operation', 'N/A'),
             user_id=row.get('UserId', 'N/A'),
-            audit_creation_time=campos_audit['creation_time'],
-            audit_id=campos_audit['audit_id'],
-            audit_operation=campos_audit['audit_operation'],
-            organization_id=campos_audit['organization_id'],
-            audit_record_type=campos_audit['audit_record_type'],
-            user_key=campos_audit['user_key'],
-            user_type=campos_audit['user_type'],
-            version=campos_audit['version'],
-            workload=campos_audit['workload'],
-            client_ip=campos_audit['client_ip']
+            campos_audit=campos_audit  # Pasamos todo el diccionario
         )
         
         # Agregar a lista de objetos InformeInterface
         lista_registros_interface.append(registro)
         
-        # Crear diccionario para el Excel (ahora incluye múltiples campos del audit)
+        # Crear diccionario para el Excel (ahora incluye todos los 39 campos del audit)
         datos_excel = {
             'record_id': row.get('RecordId', 'N/A'),
             'creation_date': row.get('CreationDate', 'N/A'),
             'record_type': row.get('RecordType', 'N/A'),
             'operation': row.get('Operation', 'N/A'),
             'user_id': row.get('UserId', 'N/A'),
-            'audit_creation_time': campos_audit['creation_time'],
-            'audit_id': campos_audit['audit_id'],
-            'audit_operation': campos_audit['audit_operation'],
-            'organization_id': campos_audit['organization_id'],
-            'audit_record_type': campos_audit['audit_record_type'],
-            'user_key': campos_audit['user_key'],
-            'user_type': campos_audit['user_type'],
-            'version': campos_audit['version'],
-            'workload': campos_audit['workload'],
-            'client_ip': campos_audit['client_ip']
         }
+        # Agregar todos los campos del audit al diccionario
+        datos_excel.update(campos_audit)
         
         # Agregar a lista de datos para Excel
         lista_datos_para_excel.append(datos_excel)

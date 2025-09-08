@@ -24,7 +24,7 @@ def crear_excel_purview(datos_registros):
     ws = wb.active
     ws.title = "Datos Purview"
     
-    # Definir headers para las 8 columnas (agregamos Audit Operation)
+    # Definir headers para las 15 columnas (5 originales + 10 del audit JSON)
     headers = [
         'RecordID',              # A
         'Creation Date',         # B
@@ -33,7 +33,14 @@ def crear_excel_purview(datos_registros):
         'User ID',              # E
         'Audit Creation Time',   # F
         'Audit ID',             # G
-        'Audit Operation'        # H ✅ NUEVA COLUMNA
+        'Audit Operation',       # H
+        'Organization ID',       # I
+        'Audit Record Type',     # J
+        'User Key',             # K
+        'User Type',            # L
+        'Version',              # M
+        'Workload',             # N
+        'Client IP'             # O
     ]
     
     # Agregar headers con formato
@@ -51,7 +58,14 @@ def crear_excel_purview(datos_registros):
         ws.cell(row=row, column=5, value=registro.get('user_id', 'N/A'))
         ws.cell(row=row, column=6, value=registro.get('audit_creation_time', 'N/A'))
         ws.cell(row=row, column=7, value=registro.get('audit_id', 'N/A'))
-        ws.cell(row=row, column=8, value=registro.get('audit_operation', 'N/A'))  # ✅ NUEVA COLUMNA
+        ws.cell(row=row, column=8, value=registro.get('audit_operation', 'N/A'))
+        ws.cell(row=row, column=9, value=registro.get('organization_id', 'N/A'))
+        ws.cell(row=row, column=10, value=registro.get('audit_record_type', 'N/A'))
+        ws.cell(row=row, column=11, value=registro.get('user_key', 'N/A'))
+        ws.cell(row=row, column=12, value=registro.get('user_type', 'N/A'))
+        ws.cell(row=row, column=13, value=registro.get('version', 'N/A'))
+        ws.cell(row=row, column=14, value=registro.get('workload', 'N/A'))
+        ws.cell(row=row, column=15, value=registro.get('client_ip', 'N/A'))
     
     # Ajustar ancho de columnas automáticamente
     for column in ws.columns:

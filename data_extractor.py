@@ -23,18 +23,28 @@ def limpiar_json(json_string):
 
 def extraer_datos_audit(audit_data, fila_numero):
     """
-    Extrae CreationTime, Id y Operation del JSON de AuditData
+    Extrae múltiples campos del JSON de AuditData
     
     Args:
         audit_data: JSON string con los datos de auditoría
         fila_numero: Número de fila para debug
         
     Returns:
-        tuple: (creation_time, audit_id, audit_operation)
+        dict: Diccionario con todos los campos extraídos
     """
-    creation_time = 'N/A'
-    audit_id = 'N/A'
-    audit_operation = 'N/A'
+    # Inicializar todos los campos con N/A
+    campos_audit = {
+        'creation_time': 'N/A',
+        'audit_id': 'N/A',
+        'audit_operation': 'N/A',
+        'organization_id': 'N/A',
+        'audit_record_type': 'N/A',
+        'user_key': 'N/A',
+        'user_type': 'N/A',
+        'version': 'N/A',
+        'workload': 'N/A',
+        'client_ip': 'N/A'
+    }
     
     try:
         if audit_data and audit_data != 'N/A':
@@ -47,10 +57,20 @@ def extraer_datos_audit(audit_data, fila_numero):
                 print(f"Carácter en posición 1144: '{char_prob}' (ord: {ord(char_prob)})")
             
             audit_data_dict = json.loads(audit_data_limpio)
-            creation_time = audit_data_dict.get('CreationTime', 'N/A')
-            audit_id = audit_data_dict.get('Id', 'N/A')
-            audit_operation = audit_data_dict.get('Operation', 'N/A')
-            print(f"DEBUG - Fila {fila_numero}: CreationTime={creation_time}, Id={audit_id}, Operation={audit_operation}")
+            
+            # Extraer todos los campos
+            campos_audit['creation_time'] = audit_data_dict.get('CreationTime', 'N/A')
+            campos_audit['audit_id'] = audit_data_dict.get('Id', 'N/A')
+            campos_audit['audit_operation'] = audit_data_dict.get('Operation', 'N/A')
+            campos_audit['organization_id'] = audit_data_dict.get('OrganizationId', 'N/A')
+            campos_audit['audit_record_type'] = audit_data_dict.get('RecordType', 'N/A')
+            campos_audit['user_key'] = audit_data_dict.get('UserKey', 'N/A')
+            campos_audit['user_type'] = audit_data_dict.get('UserType', 'N/A')
+            campos_audit['version'] = audit_data_dict.get('Version', 'N/A')
+            campos_audit['workload'] = audit_data_dict.get('Workload', 'N/A')
+            campos_audit['client_ip'] = audit_data_dict.get('ClientIP', 'N/A')
+            
+            print(f"DEBUG - Fila {fila_numero}: Extraídos {len([v for v in campos_audit.values() if v != 'N/A'])} campos del JSON")
             
     except (json.JSONDecodeError, Exception) as e:
         print(f"Error parsing JSON para fila {fila_numero}: {e}")
@@ -65,14 +85,24 @@ def extraer_datos_audit(audit_data, fila_numero):
             try:
                 audit_data_manual = audit_data[:1144] + audit_data[1145:]
                 audit_data_dict = json.loads(audit_data_manual)
-                creation_time = audit_data_dict.get('CreationTime', 'N/A')
-                audit_id = audit_data_dict.get('Id', 'N/A')
-                audit_operation = audit_data_dict.get('Operation', 'N/A')
-                print(f"ÉXITO con limpieza manual - Fila {fila_numero}: CreationTime={creation_time}, Id={audit_id}, Operation={audit_operation}")
+                
+                # Extraer todos los campos con limpieza manual
+                campos_audit['creation_time'] = audit_data_dict.get('CreationTime', 'N/A')
+                campos_audit['audit_id'] = audit_data_dict.get('Id', 'N/A')
+                campos_audit['audit_operation'] = audit_data_dict.get('Operation', 'N/A')
+                campos_audit['organization_id'] = audit_data_dict.get('OrganizationId', 'N/A')
+                campos_audit['audit_record_type'] = audit_data_dict.get('RecordType', 'N/A')
+                campos_audit['user_key'] = audit_data_dict.get('UserKey', 'N/A')
+                campos_audit['user_type'] = audit_data_dict.get('UserType', 'N/A')
+                campos_audit['version'] = audit_data_dict.get('Version', 'N/A')
+                campos_audit['workload'] = audit_data_dict.get('Workload', 'N/A')
+                campos_audit['client_ip'] = audit_data_dict.get('ClientIP', 'N/A')
+                
+                print(f"ÉXITO con limpieza manual - Fila {fila_numero}: Extraídos {len([v for v in campos_audit.values() if v != 'N/A'])} campos")
             except Exception as e2:
                 print(f"Falló también la limpieza manual: {e2}")
     
-    return creation_time, audit_id, audit_operation
+    return campos_audit
 
 def getdata_from_base_excel(archivo_excel, num_filas=5):
     """
@@ -108,8 +138,8 @@ def getdata_from_base_excel(archivo_excel, num_filas=5):
         audit_data = row.get('AuditData', 'N/A')
         print(f"audit data: {audit_data}")
         
-        # Extraer datos del JSON de auditoría (ahora incluye Operation)
-        creation_time, audit_id, audit_operation = extraer_datos_audit(audit_data, i)
+        # Extraer datos del JSON de auditoría (ahora incluye múltiples campos)
+        campos_audit = extraer_datos_audit(audit_data, i)
         
         # Crear objeto InformeInterface
         registro = InformeInterface(
@@ -118,24 +148,38 @@ def getdata_from_base_excel(archivo_excel, num_filas=5):
             record_type=row.get('RecordType', 'N/A'),
             operation=row.get('Operation', 'N/A'),
             user_id=row.get('UserId', 'N/A'),
-            audit_creation_time=creation_time,
-            audit_id=audit_id,
-            audit_operation=audit_operation
+            audit_creation_time=campos_audit['creation_time'],
+            audit_id=campos_audit['audit_id'],
+            audit_operation=campos_audit['audit_operation'],
+            organization_id=campos_audit['organization_id'],
+            audit_record_type=campos_audit['audit_record_type'],
+            user_key=campos_audit['user_key'],
+            user_type=campos_audit['user_type'],
+            version=campos_audit['version'],
+            workload=campos_audit['workload'],
+            client_ip=campos_audit['client_ip']
         )
         
         # Agregar a lista de objetos InformeInterface
         lista_registros_interface.append(registro)
         
-        # Crear diccionario para el Excel (ahora incluye audit_operation)
+        # Crear diccionario para el Excel (ahora incluye múltiples campos del audit)
         datos_excel = {
             'record_id': row.get('RecordId', 'N/A'),
             'creation_date': row.get('CreationDate', 'N/A'),
             'record_type': row.get('RecordType', 'N/A'),
             'operation': row.get('Operation', 'N/A'),
             'user_id': row.get('UserId', 'N/A'),
-            'audit_creation_time': creation_time,
-            'audit_id': audit_id,
-            'audit_operation': audit_operation
+            'audit_creation_time': campos_audit['creation_time'],
+            'audit_id': campos_audit['audit_id'],
+            'audit_operation': campos_audit['audit_operation'],
+            'organization_id': campos_audit['organization_id'],
+            'audit_record_type': campos_audit['audit_record_type'],
+            'user_key': campos_audit['user_key'],
+            'user_type': campos_audit['user_type'],
+            'version': campos_audit['version'],
+            'workload': campos_audit['workload'],
+            'client_ip': campos_audit['client_ip']
         }
         
         # Agregar a lista de datos para Excel

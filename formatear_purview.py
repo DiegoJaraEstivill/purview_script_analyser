@@ -13,8 +13,8 @@ def main():
     
     # Paso 1: Extraer datos del archivo Excel base
     # archivo_fuente = "3000lineasDelimitadoComas.xlsx"
-    archivo_fuente = "3000lineasDelimitadoComas.xlsx"
-    num_filas_procesar = 3000
+    archivo_fuente = "7000lineasDelimitadoComas.xlsx"
+    num_filas_procesar = 1000
     
     registros_interface, datos_para_excel = getdata_from_base_excel(
         archivo_fuente, 

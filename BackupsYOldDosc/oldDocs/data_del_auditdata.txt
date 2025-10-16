@@ -1,0 +1,39 @@
+1-CreationTime: "2025-07-31T13:55:38"
+2-Id: "0406d38f-f2e7-47c0-18bf-08ddd039ee06"
+3-Operation: "FileSyncUploadedFull"
+4-OrganizationId: "72d4e0ad-c185-4554-890d-f22b2d8901c4"
+5-RecordType: 6
+6-UserKey: "i:0h.f|membership|1003bffd844fb92f@live.com"
+7-UserType: 0
+8-Version: 1
+9-Workload: "SharePoint"
+10-ClientIP: "2a00:79c0:705:7a00:105c:eb79:4340:facc"
+11-UserId: "ext.ealanis@fesanco.cl"
+12-AuthenticationType: "FormsCookieAuth"
+13-BrowserName: ""
+14-BrowserVersion: ""
+15-CorrelationId: "132fb7a1-b01b-0000-e4b2-3044501e427c"
+16-EventSource: "SharePoint"
+17-GeoLocation: "NAM"
+18-IsManagedDevice: false
+19-ItemType: "File"
+20-ListId: "072ce41e-ee40-4b3b-9c4e-4fbc4834376b"
+21-ListItemUniqueId: "cd032959-c680-4a6a-ba57-44f83c38fc3a"
+22-Platform: "WinDesktop"
+23-Site: "e112e242-8ba2-4859-b723-56e303793dfe"
+24-UserAgent: "Microsoft SkyDriveSync 25.127.0701.0006 ship Windows NT 10.0 (22631)"
+25-WebId: "e93d769a-c388-46b0-901f-dd2b91daa66b"
+26-DeviceDisplayName: "2603:10b6:610:e6::28"
+27-EventSignature: "1.CAESFEZpbGVTeW5jVXBsb2FkZWRGdWxsGNrrrcQGIhAxMDAzYmZmZDg0NGZiOTJmMhIJQuIS4aKLWUgRtyNW4wN5Pf46Egmadj3piMOwRhGQH90rkdqma0ISCR7kLAdA7jtLEZxOT7xINDdrShIJWSkDzYDGakoRuldE-Dw4_Do.Y-RtsQlV3C8pisV0Q-lUXS3L4HhaG598QPCdgninAb8"
+28-MachineId: "4fdece00-5232-4d82-99ab-ad6d6e513bbe"
+29-FileSyncBytesCommitted: "179558"
+30-HighPriorityMediaProcessing: false
+31-ImplicitShare: "Yes"
+32-ListBaseType: 1
+33-ListServerTemplate: 101
+34-SourceRelativeUrl: "Documentos compartidos/General/Documentos Rental/Rental Ciclo de Vida SII TGR DT Otros"
+35-SourceFileName: "76690947-7 Carpeta Tributaria F-22 F-29 Datos Contribuyente.pdf"
+36-SourceFileExtension: "pdf"
+37-ApplicationDisplayName: "OneDriveSync"
+38-SiteUrl: "https://fesanco.sharepoint.com/sites/repositoriodocumentos/"
+39-ObjectId: "https://fesanco.sharepoint.com/sites/repositoriodocumentos/Documentos compartidos/General/Documentos Rental/Rental Ciclo de Vida SII TGR DT Otros/76690947-7 Carpeta Tributaria F-22 F-29 Datos Contribuyente.pdf"

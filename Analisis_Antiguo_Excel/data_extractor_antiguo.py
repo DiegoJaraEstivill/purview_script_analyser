@@ -199,34 +199,19 @@ def extraer_datos_audit(audit_data, fila_numero):
 
 def getdata_from_base_excel(archivo_excel, num_filas=5):
     """
-    FUNCIÓN ANTIGUA - DEPRECADA - Usar getdata_from_csv() en su lugar
-    Esta función leía Excel y causaba corrupción de datos
-    """
-    raise DeprecationWarning("Esta función está deprecada. Usar getdata_from_csv() en su lugar")
-
-def getdata_from_csv(archivo_csv, num_filas=5):
-    """
-    Extrae datos del archivo CSV de texto plano
-    Lee solo los primeros 5 campos básicos
+    Extrae datos del archivo Excel base y crea objetos InformeInterface
     
     Args:
-        archivo_csv (str): Ruta al archivo CSV fuente
+        archivo_excel (str): Ruta al archivo Excel fuente
         num_filas (int): Número de filas a procesar
         
     Returns:
-        list: Lista de diccionarios con los datos de cada registro
+        tuple: (lista_registros_interface, lista_datos_para_excel)
     """
-    print(f"📂 Leyendo archivo CSV: {archivo_csv}")
+    print(f"📂 Leyendo archivo: {archivo_excel}")
     
-    # Leer el archivo CSV correctamente - NO usar Excel
-    df = pd.read_csv(
-        archivo_csv,
-        encoding='utf-8',
-        sep=',',
-        quotechar='"',
-        escapechar='\\',
-        usecols=['RecordId', 'CreationDate', 'RecordType', 'Operation', 'UserId']
-    )
+    # Leer el archivo Excel
+    df = pd.read_excel(archivo_excel)
     
     # Tomar las primeras x filas
     filas_a_revisar = df.head(num_filas)
@@ -234,33 +219,50 @@ def getdata_from_csv(archivo_csv, num_filas=5):
     print(f"📊 Procesando {len(filas_a_revisar)} filas...")
     print("=" * 60)
     
-    # Lista para almacenar resultados
+    # Listas para almacenar resultados
+    lista_registros_interface = []
     lista_datos_para_excel = []
     
-    # Procesar cada fila - SOLO 5 campos básicos
+    # Procesar cada fila
     for i, (index, row) in enumerate(filas_a_revisar.iterrows(), 1):
         print(f"\n🔄 Procesando fila {i}...")
         
-        # Crear diccionario simple con los 5 campos básicos
+        # Obtener audit_data
+        audit_data = row.get('AuditData', 'N/A')
+        print(f"audit data: {audit_data}")
+        
+        # Extraer datos del JSON de auditoría (ahora incluye múltiples campos)
+        campos_audit = extraer_datos_audit(audit_data, i)
+        
+        # Crear objeto InformeInterface con todos los campos
+        registro = InformeInterface(
+            record_id=row.get('RecordId', 'N/A'),
+            creation_date=row.get('CreationDate', 'N/A'),
+            record_type=row.get('RecordType', 'N/A'),
+            operation=row.get('Operation', 'N/A'),
+            user_id=row.get('UserId', 'N/A'),
+            campos_audit=campos_audit  # Pasamos todo el diccionario
+        )
+        
+        # Agregar a lista de objetos InformeInterface
+        lista_registros_interface.append(registro)
+        
+        # Crear diccionario para el Excel (ahora incluye todos los 39 campos del audit)
         datos_excel = {
-            'RecordId': row.get('RecordId', 'N/A'),
-            'CreationDate': row.get('CreationDate', 'N/A'),
-            'RecordType': row.get('RecordType', 'N/A'),
-            'Operation': row.get('Operation', 'N/A'),
-            'UserId': row.get('UserId', 'N/A'),
+            'record_id': row.get('RecordId', 'N/A'),
+            'creation_date': row.get('CreationDate', 'N/A'),
+            'record_type': row.get('RecordType', 'N/A'),
+            'operation': row.get('Operation', 'N/A'),
+            'user_id': row.get('UserId', 'N/A'),
         }
+        # Agregar todos los campos del audit al diccionario
+        datos_excel.update(campos_audit)
         
         # Agregar a lista de datos para Excel
         lista_datos_para_excel.append(datos_excel)
         
-        # Mostrar datos procesados
-        print(f"   ✓ RecordId: {datos_excel['RecordId'][:40]}..." if len(str(datos_excel['RecordId'])) > 40 else f"   ✓ RecordId: {datos_excel['RecordId']}")
-        print(f"   ✓ CreationDate: {datos_excel['CreationDate']}")
-        print(f"   ✓ RecordType: {datos_excel['RecordType']}")
-        print(f"   ✓ Operation: {datos_excel['Operation']}")
-        print(f"   ✓ UserId: {datos_excel['UserId']}")
         print(f"✅ Fila {i} procesada correctamente")
     
-    print(f"\n🎯 Extracción completada: {len(lista_datos_para_excel)} registros procesados")
+    print(f"\n🎯 Extracción completada: {len(lista_registros_interface)} registros procesados")
     
-    return lista_datos_para_excel
+    return lista_registros_interface, lista_datos_para_excel

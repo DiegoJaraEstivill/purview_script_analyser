@@ -1,6 +1,6 @@
 from datetime import datetime
 from openpyxl import Workbook
-from openpyxl.styles import Font, PatternFill
+from openpyxl.styles import Font, PatternFill, Alignment
 
 def crear_nombre_archivo():
     """Crea el nombre del archivo Excel con formato PurviewInf_DDMMAAAA_HHMM"""
@@ -9,16 +9,9 @@ def crear_nombre_archivo():
     hora = ahora.strftime("%H%M")     # hora-minuto
     return f"PurviewInf_{fecha}_{hora}.xlsx"
 
-def crear_excel_purview_completo(datos_registros):
+def crear_excel_simple(datos_registros):
     """
-    FUNCIÓN ANTIGUA - DEPRECADA - 44 columnas con JSON
-    Esta función está archivada. Usar crear_excel_purview() en su lugar
-    """
-    raise DeprecationWarning("Esta función está deprecada. Usar crear_excel_purview() en su lugar")
-
-def crear_excel_purview(datos_registros):
-    """
-    Crea un archivo Excel con solo los primeros 5 campos básicos
+    Crea un archivo Excel con solo los primeros 5 campos
     
     Args:
         datos_registros (list): Lista de diccionarios con los datos de cada registro
@@ -26,22 +19,26 @@ def crear_excel_purview(datos_registros):
     Returns:
         str: Nombre del archivo creado
     """
+    print("\n📊 Creando archivo Excel...")
+    print("=" * 60)
+    
     # Crear workbook y worksheet
     wb = Workbook()
     ws = wb.active
     ws.title = "Datos Purview"
     
-    # Definir headers (solo 5 columnas básicas)
+    # Definir headers (solo 5 columnas)
     headers = ['RecordId', 'CreationDate', 'RecordType', 'Operation', 'UserId']
     
     # Agregar headers con formato
     for col, header in enumerate(headers, 1):
         celda = ws.cell(row=1, column=col, value=header)
-        celda.font = Font(bold=True, color='FFFFFF')
+        celda.font = Font(bold=True, color='FFFFFF', size=12)
         celda.fill = PatternFill(start_color='4472C4', end_color='4472C4', fill_type='solid')
+        celda.alignment = Alignment(horizontal='center', vertical='center')
     
-    # Agregar datos fila por fila - SOLO 5 columnas
-    for fila_num, registro in enumerate(datos_registros, 2):  # Empezar en fila 2 (después del header)
+    # Agregar datos fila por fila
+    for fila_num, registro in enumerate(datos_registros, 2):  # Empezar en fila 2
         ws.cell(row=fila_num, column=1, value=registro.get('RecordId', 'N/A'))
         ws.cell(row=fila_num, column=2, value=registro.get('CreationDate', 'N/A'))
         ws.cell(row=fila_num, column=3, value=registro.get('RecordType', 'N/A'))
@@ -54,12 +51,14 @@ def crear_excel_purview(datos_registros):
         column_letter = column[0].column_letter
         for cell in column:
             try:
-                if len(str(cell.value)) > max_length:
-                    max_length = len(str(cell.value))
+                if cell.value:
+                    cell_length = len(str(cell.value))
+                    if cell_length > max_length:
+                        max_length = cell_length
             except:
                 pass
-        # Establecer un ancho mínimo de 12 y máximo de 50
-        adjusted_width = min(max(max_length + 2, 12), 50)
+        # Establecer un ancho mínimo de 15 y máximo de 50
+        adjusted_width = min(max(max_length + 2, 15), 50)
         ws.column_dimensions[column_letter].width = adjusted_width
     
     # Guardar archivo con nombre generado automáticamente
@@ -68,5 +67,8 @@ def crear_excel_purview(datos_registros):
     
     print(f"✅ Archivo Excel creado exitosamente: {nombre_archivo}")
     print(f"📊 Total de registros procesados: {len(datos_registros)}")
+    print(f"📋 Columnas creadas: {len(headers)}")
+    print("=" * 60)
     
     return nombre_archivo
+

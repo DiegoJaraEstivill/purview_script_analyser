@@ -1,5 +1,5 @@
-from csv_extractor_completo import extraer_todos_los_campos_csv, mostrar_resumen_campos
-from excel_creator_completo import crear_excel_completo, crear_resumen_columnas
+from extractor import extraer_todos_los_campos_csv, mostrar_resumen_campos
+from excel_creator import crear_excel_completo, crear_resumen_columnas
 
 def main():
     """
@@ -22,8 +22,8 @@ def main():
     print("=" * 80)
     
     # Configuración
-    archivo_fuente = "../7000LineasTextoPlano.csv"
-    num_filas_procesar = 5  # Empezar con pocas filas para probar
+    archivo_fuente = "../Data/Input/7000LineasTextoPlano.csv"
+    num_filas_procesar = 7000  # Empezar con pocas filas para probar
     
     print(f"\n📂 Archivo fuente: {archivo_fuente}")
     print(f"📊 Número de filas a procesar: {num_filas_procesar}")

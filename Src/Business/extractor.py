@@ -1,5 +1,5 @@
 import pandas as pd
-from json_flattener import extraer_y_aplanar_audit_data, obtener_campos_unicos, normalizar_registro
+from json_parser import extraer_y_aplanar_audit_data, obtener_campos_unicos, normalizar_registro
 
 def extraer_todos_los_campos_csv(archivo_csv, num_filas=5):
     """

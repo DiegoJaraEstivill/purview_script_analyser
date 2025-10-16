@@ -118,10 +118,11 @@ def crear_excel_completo(datos_registros, campos_ordenados):
         if col_idx % 10 == 0:
             print(f"   ✓ Ajustadas {col_idx} columnas...")
     
-    # Guardar archivo
+    # Guardar archivo en carpeta Output
     nombre_archivo = crear_nombre_archivo()
-    print(f"\n💾 Guardando archivo: {nombre_archivo}...")
-    wb.save(nombre_archivo)
+    ruta_completa = f"../Data/Output/{nombre_archivo}"
+    print(f"\n💾 Guardando archivo: {ruta_completa}...")
+    wb.save(ruta_completa)
     
     print("\n" + "=" * 80)
     print("✅ ARCHIVO EXCEL CREADO EXITOSAMENTE")
@@ -145,8 +146,9 @@ def crear_resumen_columnas(campos_ordenados, nombre_archivo_base="resumen_column
     ahora = datetime.now()
     timestamp = ahora.strftime("%d%m%Y_%H%M")
     nombre_archivo = f"resumen_columnas_{timestamp}.txt"
+    ruta_completa = f"../Data/Output/{nombre_archivo}"
     
-    with open(nombre_archivo, 'w', encoding='utf-8') as f:
+    with open(ruta_completa, 'w', encoding='utf-8') as f:
         f.write("=" * 80 + "\n")
         f.write("RESUMEN DE COLUMNAS DEL EXCEL GENERADO\n")
         f.write("=" * 80 + "\n\n")

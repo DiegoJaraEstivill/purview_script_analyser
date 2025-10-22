@@ -1,0 +1,97 @@
+================================================================================
+RESUMEN DE COLUMNAS DEL EXCEL GENERADO - DOS PESTANAS
+================================================================================
+
+Fecha: 22/10/2025 12:52:17
+Total columnas usuarios normales: 72
+Total columnas usuarios SharePoint: 8
+
+PESTANA 1 - USUARIOS NORMALES:
+----------------------------------------
+  1. AppAccessContext_AADSessionId
+  2. AppAccessContext_AuthTime
+  3. AppAccessContext_ClientAppId
+  4. AppAccessContext_ClientAppName
+  5. AppAccessContext_CorrelationId
+  6. AppAccessContext_DeviceId
+  7. AppAccessContext_TokenIssuedAtTime
+  8. AppAccessContext_UniqueTokenId
+  9. AppAccessContext_UserObjectId
+ 10. ApplicationDisplayName
+ 11. ApplicationId
+ 12. AssociatedAdminUnits
+ 13. AssociatedAdminUnitsNames
+ 14. Audit_Id
+ 15. Audit_Operation
+ 16. Audit_RecordType
+ 17. Audit_UserId
+ 18. AuthenticationType
+ 19. BrowserName
+ 20. BrowserVersion
+ 21. ClientIP
+ 22. CorrelationId
+ 23. CreationDate
+ 24. CreationTime
+ 25. CustomUniqueId
+ 26. CustomizedDoclib
+ 27. DeviceDisplayName
+ 28. DoNotDistributeEvent
+ 29. EventSignature
+ 30. EventSource
+ 31. FileSizeBytes
+ 32. FileSyncBytesCommitted
+ 33. FromApp
+ 34. GeoLocation
+ 35. HighPriorityMediaProcessing
+ 36. ImplicitShare
+ 37. IsManagedDevice
+ 38. ItemCount
+ 39. ItemType
+ 40. ListBaseTemplateType
+ 41. ListBaseType
+ 42. ListColor
+ 43. ListIcon
+ 44. ListId
+ 45. ListItemUniqueId
+ 46. ListName
+ 47. ListServerTemplate
+ 48. ListTitle
+ 49. ListUrl
+ 50. MachineId
+ 51. ObjectId
+ 52. Operation
+ 53. OrganizationId
+ 54. Platform
+ 55. RecordId
+ 56. RecordType
+ 57. Site
+ 58. SiteUrl
+ 59. Source
+ 60. SourceFileExtension
+ 61. SourceFileName
+ 62. SourceRelativeUrl
+ 63. TemplateTypeId
+ 64. UserAgent
+ 65. UserId
+ 66. UserKey
+ 67. UserSessionId
+ 68. UserType
+ 69. Version
+ 70. WebId
+ 71. Workload
+ 72. ZipFileName
+
+PESTANA 2 - USUARIOS SHAREPOINT SYSTEM:
+----------------------------------------
+  1. AssociatedAdminUnits
+  2. AssociatedAdminUnitsNames
+  3. CorrelationId
+  4. CreationDate
+  5. Operation
+  6. RecordId
+  7. RecordType
+  8. UserId
+
+================================================================================
+FIN DEL RESUMEN
+================================================================================

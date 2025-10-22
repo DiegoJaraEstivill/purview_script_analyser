@@ -79,14 +79,14 @@ def extraer_y_aplanar_audit_data(audit_data_string, fila_numero):
             # Aplanar el JSON (esto maneja automáticamente AppAccessContext y otros anidados)
             campos_extraidos = flatten_json(audit_data_dict)
             
-            print(f"   ✓ JSON parseado: {len(campos_extraidos)} campos extraídos")
+            print(f"   OK JSON parseado: {len(campos_extraidos)} campos extraidos")
             
     except json.JSONDecodeError as e:
-        print(f"   ⚠️ Error parseando JSON en fila {fila_numero}: {str(e)[:100]}")
+        print(f"   ERROR parseando JSON en fila {fila_numero}: {str(e)[:100]}")
         # Retornar diccionario vacío en caso de error
         campos_extraidos = {}
     except Exception as e:
-        print(f"   ⚠️ Error inesperado en fila {fila_numero}: {str(e)[:100]}")
+        print(f"   ERROR inesperado en fila {fila_numero}: {str(e)[:100]}")
         campos_extraidos = {}
     
     return campos_extraidos

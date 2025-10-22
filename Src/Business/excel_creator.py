@@ -137,16 +137,17 @@ def crear_pestana_usuarios_sharepoint(ws, datos_registros, campos_ordenados):
     border_side = Side(style='thin', color='000000')
     header_border = Border(left=border_side, right=border_side, top=border_side, bottom=border_side)
     
-    # SOLO HASTA COLUMNA F (6 columnas): A, B, C, D, E, F
+    # TODAS LAS COLUMNAS SHAREPOINT: base + todos los campos JSON + finales
     campos_base = ['RecordId', 'CreationDate', 'RecordType', 'Operation', 'UserId']
+    campos_finales = ['AssociatedAdminUnits', 'AssociatedAdminUnitsNames']
     
-    # Solo agregar CorrelationId si existe
-    campos_json_limitados = []
-    if 'CorrelationId' in campos_ordenados:
-        campos_json_limitados.append('CorrelationId')
+    # Campos del JSON SharePoint (ordenados alfabéticamente)
+    campos_json_sharepoint = sorted([c for c in campos_ordenados 
+                                     if c not in campos_base 
+                                     and c not in campos_finales])
     
-    # Ordenar headers: base + CorrelationId (máximo 6 columnas total)
-    headers_ordenados = campos_base + campos_json_limitados
+    # Ordenar headers: base + json + finales
+    headers_ordenados = campos_base + campos_json_sharepoint + campos_finales
     
     # Crear headers
     for col_idx, header in enumerate(headers_ordenados, 1):

@@ -45,7 +45,7 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Directorio de este script
     archivo_fuente = os.path.join(script_dir, "..", "Data", "Input", "7000LineasTextoPlano.csv")
     archivo_fuente = os.path.normpath(archivo_fuente)  # Normalizar la ruta
-    num_filas_procesar = 100  # Probar con 100 filas como solicitaste
+    num_filas_procesar = 7000  # Probar con 100 filas como solicitaste
     
     print(f"\nArchivo fuente: {archivo_fuente}")
     print(f"Numero de filas a procesar: {num_filas_procesar}")

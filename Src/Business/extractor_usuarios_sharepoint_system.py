@@ -7,11 +7,38 @@ import re
 # Importar desde el mismo directorio Business
 from json_parser import extraer_y_aplanar_audit_data, obtener_campos_unicos, normalizar_registro
 
-def extraer_correlation_id_desde_json_parcial(json_string):
-    """Extraer CorrelationId desde solo la parte inicial del JSON"""
+def extraer_campos_sharepoint_desde_json_parcial(json_string):
+    """Extraer todos los campos SharePoint desde JSON parcial"""
     
     if not json_string or json_string == 'N/A':
-        return 'N/A'
+        return {
+            'CorrelationId': 'N/A',
+            'CreationTime': 'N/A',
+            'Id': 'N/A',
+            'OrganizationId': 'N/A',
+            'UserKey': 'N/A',
+            'UserType': 'N/A',
+            'Version': 'N/A',
+            'Workload': 'N/A',
+            'ClientIP': 'N/A',
+            'UserId': 'N/A',
+            'EventSource': 'N/A',
+            'GeoLocation': 'N/A',
+            'ItemType': 'N/A',
+            'ListId': 'N/A',
+            'ListItemUniqueId': 'N/A',
+            'Site': 'N/A',
+            'UserAgent': 'N/A',
+            'WebId': 'N/A',
+            'HighPriorityMediaProcessing': 'N/A',
+            'ListBaseType': 'N/A',
+            'ListServerTemplate': 'N/A',
+            'SourceRelativeUrl': 'N/A',
+            'SourceFileName': 'N/A',
+            'SourceFileExtension': 'N/A',
+            'SiteUrl': 'N/A',
+            'ObjectId': 'N/A'
+        }
     
     try:
         # Limpiar JSON: reemplazar comillas dobles por simples
@@ -21,51 +48,121 @@ def extraer_correlation_id_desde_json_parcial(json_string):
         if json_limpio.startswith('"') and json_limpio.endswith('"'):
             json_limpio = json_limpio[1:-1]
         
-        # Buscar AppAccessContext usando regex para extraer solo esa parte
-        pattern = r'"AppAccessContext":\s*\{[^}]*"CorrelationId":\s*"([^"]+)"'
-        match = re.search(pattern, json_limpio)
+        # Inicializar todos los campos
+        campos = {
+            'CorrelationId': 'N/A',
+            'CreationTime': 'N/A',
+            'Id': 'N/A',
+            'OrganizationId': 'N/A',
+            'UserKey': 'N/A',
+            'UserType': 'N/A',
+            'Version': 'N/A',
+            'Workload': 'N/A',
+            'ClientIP': 'N/A',
+            'UserId': 'N/A',
+            'EventSource': 'N/A',
+            'GeoLocation': 'N/A',
+            'ItemType': 'N/A',
+            'ListId': 'N/A',
+            'ListItemUniqueId': 'N/A',
+            'Site': 'N/A',
+            'UserAgent': 'N/A',
+            'WebId': 'N/A',
+            'HighPriorityMediaProcessing': 'N/A',
+            'ListBaseType': 'N/A',
+            'ListServerTemplate': 'N/A',
+            'SourceRelativeUrl': 'N/A',
+            'SourceFileName': 'N/A',
+            'SourceFileExtension': 'N/A',
+            'SiteUrl': 'N/A',
+            'ObjectId': 'N/A'
+        }
         
-        if match:
-            correlation_id = match.group(1)
-            return correlation_id
+        # Buscar CorrelationId en AppAccessContext usando regex
+        pattern_correlation = r'"AppAccessContext":\s*\{[^}]*"CorrelationId":\s*"([^"]+)"'
+        match_correlation = re.search(pattern_correlation, json_limpio)
+        if match_correlation:
+            campos['CorrelationId'] = match_correlation.group(1)
         
-        # Si no encuentra con regex, intentar parsear solo hasta donde se pueda
-        # Buscar el inicio de AppAccessContext
-        start_pos = json_limpio.find('"AppAccessContext":')
-        if start_pos != -1:
-            # Buscar el inicio del objeto AppAccessContext
-            brace_start = json_limpio.find('{', start_pos)
-            if brace_start != -1:
-                # Contar llaves para encontrar el cierre
-                brace_count = 0
-                for i in range(brace_start, min(brace_start + 200, len(json_limpio))):
-                    if json_limpio[i] == '{':
-                        brace_count += 1
-                    elif json_limpio[i] == '}':
-                        brace_count -= 1
-                        if brace_count == 0:
-                            # Encontramos el cierre del AppAccessContext
-                            app_context_json = json_limpio[brace_start:i+1]
-                            try:
-                                app_context_dict = json.loads(app_context_json)
-                                if 'CorrelationId' in app_context_dict:
-                                    return app_context_dict['CorrelationId']
-                            except:
-                                pass
-                            break
+        # Buscar todos los demás campos en nivel principal usando regex
+        patrones = {
+            'CreationTime': r'"CreationTime":\s*"([^"]+)"',
+            'Id': r'"Id":\s*"([^"]+)"',
+            'OrganizationId': r'"OrganizationId":\s*"([^"]+)"',
+            'UserKey': r'"UserKey":\s*"([^"]+)"',
+            'UserType': r'"UserType":\s*"([^"]+)"',
+            'Version': r'"Version":\s*"([^"]+)"',
+            'Workload': r'"Workload":\s*"([^"]+)"',
+            'ClientIP': r'"ClientIP":\s*"([^"]+)"',
+            'UserId': r'"UserId":\s*"([^"]+)"',
+            'EventSource': r'"EventSource":\s*"([^"]+)"',
+            'GeoLocation': r'"GeoLocation":\s*"([^"]+)"',
+            'ItemType': r'"ItemType":\s*"([^"]+)"',
+            'ListId': r'"ListId":\s*"([^"]+)"',
+            'ListItemUniqueId': r'"ListItemUniqueId":\s*"([^"]+)"',
+            'Site': r'"Site":\s*"([^"]+)"',
+            'UserAgent': r'"UserAgent":\s*"([^"]+)"',
+            'WebId': r'"WebId":\s*"([^"]+)"',
+            'HighPriorityMediaProcessing': r'"HighPriorityMediaProcessing":\s*"([^"]+)"',
+            'ListBaseType': r'"ListBaseType":\s*"([^"]+)"',
+            'ListServerTemplate': r'"ListServerTemplate":\s*"([^"]+)"',
+            'SourceRelativeUrl': r'"SourceRelativeUrl":\s*"([^"]+)"',
+            'SourceFileName': r'"SourceFileName":\s*"([^"]+)"',
+            'SourceFileExtension': r'"SourceFileExtension":\s*"([^"]+)"',
+            'SiteUrl': r'"SiteUrl":\s*"([^"]+)"',
+            'ObjectId': r'"ObjectId":\s*"([^"]+)"'
+        }
         
-        return 'N/A'
+        # Extraer cada campo usando su patrón
+        for campo, patron in patrones.items():
+            match = re.search(patron, json_limpio)
+            if match:
+                campos[campo] = match.group(1)
+        
+        return campos
         
     except Exception as e:
-        return 'N/A'
+        # Retornar campos con valores N/A en caso de error
+        return {
+            'CorrelationId': 'N/A',
+            'CreationTime': 'N/A',
+            'Id': 'N/A',
+            'OrganizationId': 'N/A',
+            'UserKey': 'N/A',
+            'UserType': 'N/A',
+            'Version': 'N/A',
+            'Workload': 'N/A',
+            'ClientIP': 'N/A',
+            'UserId': 'N/A',
+            'EventSource': 'N/A',
+            'GeoLocation': 'N/A',
+            'ItemType': 'N/A',
+            'ListId': 'N/A',
+            'ListItemUniqueId': 'N/A',
+            'Site': 'N/A',
+            'UserAgent': 'N/A',
+            'WebId': 'N/A',
+            'HighPriorityMediaProcessing': 'N/A',
+            'ListBaseType': 'N/A',
+            'ListServerTemplate': 'N/A',
+            'SourceRelativeUrl': 'N/A',
+            'SourceFileName': 'N/A',
+            'SourceFileExtension': 'N/A',
+            'SiteUrl': 'N/A',
+            'ObjectId': 'N/A'
+        }
 
 def extraer_usuarios_sharepoint_system(archivo_csv, num_filas=5):
     """
-    Extrae campos específicos del CSV para USUARIOS SHAREPOINT SYSTEM
+    Extrae TODOS los campos del CSV para USUARIOS SHAREPOINT SYSTEM
     
-    CAMPOS ESPECÍFICOS PARA SHAREPOINT SYSTEMS:
+    CAMPOS COMPLETOS PARA SHAREPOINT SYSTEMS:
     1. Campos base del CSV (5): RecordId, CreationDate, RecordType, Operation, UserId
-    2. Campos básicos del JSON: CorrelationId, EventSource, GeoLocation, ItemType, etc.
+    2. Campos del JSON AuditData (26): CorrelationId, CreationTime, Id, OrganizationId, 
+       UserKey, UserType, Version, Workload, ClientIP, UserId, EventSource, GeoLocation, 
+       ItemType, ListId, ListItemUniqueId, Site, UserAgent, WebId, HighPriorityMediaProcessing,
+       ListBaseType, ListServerTemplate, SourceRelativeUrl, SourceFileName, SourceFileExtension,
+       SiteUrl, ObjectId
     3. Campos finales del CSV (2): AssociatedAdminUnits, AssociatedAdminUnitsNames
     
     Args:
@@ -117,16 +214,46 @@ def extraer_usuarios_sharepoint_system(archivo_csv, num_filas=5):
             'UserId': row.get('UserId', 'N/A'),
         }
         
-        # BLOQUE 2: Solo CorrelationId desde AppAccessContext (columna F)
+        # BLOQUE 2: Todos los campos del JSON SharePoint
         audit_data = row.get('AuditData', 'N/A')
         
         if pd.notna(audit_data) and audit_data != 'N/A':
-            correlation_id = extraer_correlation_id_desde_json_parcial(str(audit_data))
+            campos_json = extraer_campos_sharepoint_desde_json_parcial(str(audit_data))
+            # Agregar todos los campos del JSON al registro
+            for campo, valor in campos_json.items():
+                registro[campo] = valor
         else:
-            correlation_id = 'N/A'
-        
-        # Agregar solo CorrelationId (columna F)
-        registro['CorrelationId'] = correlation_id
+            # Si no hay AuditData, agregar todos los campos con N/A
+            campos_default = {
+                'CorrelationId': 'N/A',
+                'CreationTime': 'N/A',
+                'Id': 'N/A',
+                'OrganizationId': 'N/A',
+                'UserKey': 'N/A',
+                'UserType': 'N/A',
+                'Version': 'N/A',
+                'Workload': 'N/A',
+                'ClientIP': 'N/A',
+                'UserId': 'N/A',
+                'EventSource': 'N/A',
+                'GeoLocation': 'N/A',
+                'ItemType': 'N/A',
+                'ListId': 'N/A',
+                'ListItemUniqueId': 'N/A',
+                'Site': 'N/A',
+                'UserAgent': 'N/A',
+                'WebId': 'N/A',
+                'HighPriorityMediaProcessing': 'N/A',
+                'ListBaseType': 'N/A',
+                'ListServerTemplate': 'N/A',
+                'SourceRelativeUrl': 'N/A',
+                'SourceFileName': 'N/A',
+                'SourceFileExtension': 'N/A',
+                'SiteUrl': 'N/A',
+                'ObjectId': 'N/A'
+            }
+            for campo, valor in campos_default.items():
+                registro[campo] = valor
         
         # BLOQUE 3: Campos finales del CSV (2 campos)
         registro['AssociatedAdminUnits'] = row.get('AssociatedAdminUnits', 'N/A')
